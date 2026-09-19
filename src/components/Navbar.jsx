@@ -1,0 +1,5 @@
+import {useEffect,useState} from 'react';
+import {NavLink,useLocation} from 'react-router-dom';
+import Logo from './Logo';
+const links=[['Home','/'],['About','/about'],['Services','/services'],['Work','/portfolio'],['FAQ','/faq']];
+export default function Navbar(){const [open,setOpen]=useState(false);const [scrolled,setScrolled]=useState(false);const location=useLocation();useEffect(()=>{setOpen(false)},[location.pathname]);useEffect(()=>{const fn=()=>setScrolled(scrollY>20);fn();addEventListener('scroll',fn,{passive:true});return()=>removeEventListener('scroll',fn)},[]);return <header className={`site-header ${scrolled?'is-scrolled':''}`}><div className="container nav-wrap"><Logo/><button className="menu-button" onClick={()=>setOpen(!open)} aria-expanded={open} aria-label="Toggle navigation"><span/><span/><span/></button><nav className={open?'main-nav open':'main-nav'}>{links.map(([label,to])=><NavLink key={to} to={to} className={({isActive})=>isActive?'active':''}>{label}</NavLink>)}<NavLink className="button button--small" to="/contact">Start a project <span>↗</span></NavLink></nav></div></header>}
